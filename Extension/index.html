@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Simple Recorder.js demo with record, stop and pause - addpipe.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <script src="js/jquery-3.6.0.min.js" type="text/javascript"></script>
+  </head>
+  <body>
+    <h1>Sanskrit Voice-to-Text</h1>
+    <div id="controls">
+  	 <button id="recordButton">Record</button>
+  	 <button id="pauseButton" disabled style="display: none">Pause</button>
+  	 <button id="stopButton" disabled>Stop</button>
+    </div>
+    <div id="formats">Format: start recording to see sample rate</div>
+    <img id="loading" src="images/loading-gif.gif" style="height: 3rem; padding-top: 20px; display: none;">
+  	<p><strong>Output: <div id="output"></div></strong></p>
+  	<ol id="recordingsList"></ol>
+    <!-- inserting these scripts at the end to be able to use all the elements in the DOM -->
+  	<script src="js/recorder.js"></script>
+  	<script src="js/app.js"></script>
+  </body>
+</html>
