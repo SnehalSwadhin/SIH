@@ -19,6 +19,7 @@ stopButton.addEventListener("click", stopRecording);
 pauseButton.addEventListener("click", pauseRecording);
 
 function startRecording() {
+	$("#related").html("");
 	console.log("recordButton clicked");
 
 	/*
@@ -142,6 +143,8 @@ function callAPI(blob) {
 	}).done(function(data) {
 		$("#loading").hide();
 	    $("#output").html(data.text);
+	    $("#find-btn").show()
+	    data.text = data.text.trim();
 	    chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
 	        chrome.scripting.executeScript({
 	            target: {
@@ -151,5 +154,51 @@ function callAPI(blob) {
 	            args: [data.text],
 	        })
 	    });
+	    document.getElementById("find-btn").addEventListener('click', injectFind(data.text), false);
+
+
+	    var idx = data.text.indexOf(" ");
+	    if(idx == -1 || idx == data.text.length-1) {
+	    	$.get("https://sanskrit.uohyd.ac.in/cgi-bin/scl/amarakosha/interface.cgi",
+	    		{
+	    			"word": data.text,
+	    			"encoding": "Unicode",
+	    			"relation": "syns",
+	    			"out_encoding": "DEV"
+	    		},
+    			function(data){
+		            var elem = $('<div></div>');
+		            elem.html(data);
+		            var list = $('a', elem);
+		            var words = "";
+		            if(list.length >= 7) words = "<strong>Related Words: </strong>";
+		            else words = "Word not in dictionary";
+		            for(var i = 6; i < list.length; i++) {
+		            	words += list[i].innerHTML + ', ';
+		            	console.log(list[i])
+		            }
+		            $("#related").html(words);
+	          	}
+          	);
+	    }
 	});
+}
+
+function findInPage(text) {
+	console.log(window.find(text));
+}
+
+function injectFind(text) {
+	return function() {
+		console.log("Injecting");
+		chrome.tabs.query({currentWindow: true, active: true}, function(tabs){
+	        chrome.scripting.executeScript({
+	            target: {
+	            	tabId: tabs[0].id, 
+	            	allFrames: true},
+	            func: findInPage,
+	            args: [text],
+	        })
+	    });
+	}
 }
