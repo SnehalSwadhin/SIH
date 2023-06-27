@@ -202,3 +202,30 @@ function injectFind(text) {
 	    });
 	}
 }
+
+/*
+function correctOutput() {
+	$("#wrapper").hide();
+	$("#no").prop('checked', false);
+	$.ajax({
+	    type: 'POST',
+	    url: 'http://127.0.0.1:8000/correct/',
+	    data: {
+	    	"text": $("#output").text(),
+	    },
+	    processData: false,
+	    contentType: false
+	}).done(function(data) {});
+}
+
+function wrongOutput() {
+	$("#wrapper").hide();
+	$("#no").prop('checked', false);
+	$.ajax({
+	    type: 'GET',
+	    url: 'http://127.0.0.1:8000/wrong',
+	    processData: false,
+	    contentType: false
+	}).done(function(data) {});
+}
+*/
